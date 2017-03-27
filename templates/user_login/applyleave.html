@@ -1,0 +1,107 @@
+{% extends 'base_profile.html' %}
+{% block active_home %}
+class="active"
+{% endblock %}
+{% block body %}
+<style >
+div.wrapper1{
+                
+        width:1000px;
+        height:100px;
+        margin-left:auto;
+        margin-right:auto;
+        border:1px  red;
+        font-size: 50px;
+        }
+         h1{
+             font-size: 50px;
+             top:50px;
+           }
+        .container {
+                width:1000px;
+            height:500px;
+            border:1px  red;
+            font-size: 30px;
+                }
+         .left {
+            width:500px;
+            height:500px;
+                float:left;
+            border:1px  green;
+                }
+            .right {
+                 width:500px;
+            height:500px;
+                float:right;
+            border:1px yellow;
+                }
+        .wrapper2{
+                      width:500px;
+              height:100px;
+            border:1px  red;
+            }
+</style>        
+<div class="wrapper1">
+<h1><b><center>Leave Application</center></b></h1>
+</div>
+
+        {% if applied %}
+        <strong>Your leave application has been submitted!</strong>
+        <a href="/user_login/">Return to the homepage.</a><br />
+        {% else %}
+         <center<div class="container">
+        <div class="right">
+   <div class="wrapper2">
+   <br>
+        <table>
+      <tr>
+        <th>Leave Type</th>
+        <th>Number</th>
+      </tr>
+      <tr>
+        <td>Casual </td>
+        <td><center>{{ leave.casual }}</center></td>
+      </tr>
+      <tr>
+        <td>Vacation </td>
+        <td><center>{{ leave.vacation }}</center></td>
+      </tr>
+      <tr>
+        <td>Compensation </td>
+        <td><center>{{ leave.conpens }}</center></td>
+      </tr>
+      <tr>
+        <td>Earned </td>
+        <td><center>{{ leave.earned }}</center></td>
+      </tr>
+      <tr>
+        <td>halfpaid </td>
+        <td><center>{{ leave.half_paid }}</center></td>
+      </tr> 
+      </br> 
+        </table>
+        </div>
+        </div>
+          <div class="left">
+   <div class="wrapper2">
+        <br><center>
+        <strong>Apply here!</strong><br />
+        <form id="user_form" method="post" action="/user/apply_leave/"
+                enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+            <!-- Display each form. The as_p method wraps each element in a paragraph
+                 (<p>) element. This ensures each element appears on a new line,
+                 making everything look neater. -->
+            {{ leave_app_form.as_p }}
+
+
+            <!-- Provide a button to click to submit the form. -->
+            <input type="submit" name="submit" value="Submit" />
+        </form></center>
+        </div>
+        </div>
+        </center>
+        {% endif %}
+{% endblock %}

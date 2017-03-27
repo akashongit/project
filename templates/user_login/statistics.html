@@ -1,0 +1,53 @@
+{% extends 'base_profile.html' %}
+{% block active_statistics %}
+class="active"
+{% endblock %}
+{% block body %}
+<style >
+div.wrapper1{
+                
+        width:1000px;
+        height:100px;
+        margin-left:auto;
+        margin-right:auto;
+        border:1px  red;
+        font-size: 38px;
+        }
+        h1{
+             font-size: 50px;
+             top:50px;
+           }
+</style> 
+<div class="wrapper1">
+<h1><b><center>Leave Statistics</center></b></h1>
+<center>
+        <table>
+      <tr>
+        <th>Leave Type</th>
+        <th>Number</th>
+      </tr>
+      <tr>
+        <td>Casual </td>
+        <td><center>{{ leave.casual }}</center></td>
+      </tr>
+      <tr>
+        <td>Vacation </td>
+        <td><center>{{ leave.vacation }}</center></td>
+      </tr>
+      <tr>
+        <td>Compensation </td>
+        <td><center>{{ leave.conpens }}</center></td>
+      </tr>
+      <tr>
+        <td>Earned </td>
+        <td><center>{{ leave.earned }}</center></td>
+      </tr>
+      <tr>
+        <td>halfpaid </td>
+        <td><center>{{ leave.half_paid }}</center></td>
+      </tr> 
+      </br> 
+        </table>
+</center>
+</div>
+{% endblock %}

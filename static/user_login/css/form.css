@@ -1,0 +1,118 @@
+
+input[type=text],input[type=password] {
+    width: 100%;
+    padding: 2.2% 4.2%;
+    /*padding: 12px 20px;*/
+    margin: 1% 0;
+    /*margin: 8px 0;*/
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type=submit] {
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 3% 5%;
+    /*padding: 14px 20px;*/
+    margin: 2% 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type=submit]:hover {
+    background-color: #45a049;
+}
+
+input[type=button] {
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 3% 5%;
+    /*padding: 14px 20px;*/
+    margin: 2% 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type=button]:hover {
+    background-color: #45a049;
+}
+.login {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 5%;
+    /*padding: 36px;*/
+    width: 60%;
+    min-width: 250px;
+    min-height: 150px;
+    max-width: 450px;
+    max-height: 350px;
+    position: relative;
+}
+
+.logo{
+    width: 105px;
+    height: 105px;
+    border-radius: 50px;
+}
+
+.tit{
+    color: grey;
+    padding: 40px;
+    text-align: center;
+}
+
+.bg-grey {
+    background-color: #f6f6f6;
+}
+/* Add a dark background color with a little bit see-through */ 
+.navbar {
+    margin-bottom: 0;
+    background-color: #2d2d30;
+    border: 0;
+    font-size: 11px !important;
+    letter-spacing: 4px;
+    opacity:0.9;
+}
+
+/* Add a gray color to all navbar links */
+.navbar li a, .navbar .navbar-brand { 
+    color: #d5d5d5 !important;
+}
+
+/* On hover, the links will turn white */
+.navbar-nav li a:hover {
+    color: #fff !important;
+}
+
+/* The active link */
+.navbar-nav li.active a {
+    color: #fff !important;
+    background-color:#29292c !important;
+}
+
+/* Remove border color from the collapsible button */
+.navbar-default .navbar-toggle {
+    border-color: transparent;
+}
+
+/* Dropdown */
+.open .dropdown-toggle {
+    color: #fff ;
+    background-color: #555 !important;
+}
+
+/* Dropdown links */
+.dropdown-menu li a {
+    color: #000 !important;
+}
+
+/* On hover, the dropdown links will turn red */
+.dropdown-menu li a:hover {
+    background-color: red !important;
+}

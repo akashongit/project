@@ -1,0 +1,55 @@
+{% extends 'base_profile.html' %}
+{% block active_home %}
+class="active"
+{% endblock %}
+{% block body %}
+<style >
+div.wrapper1{
+                
+        width:1000px;
+        height:100px;
+        margin-left:auto;
+        margin-right:auto;
+        border:1px  red;
+        font-size: 40px;
+        }
+        h1{
+             font-size: 65px;
+             top:50px;
+           }
+</style> 
+<h3>Search for<h3>
+<form id="user_form" method="post" action="/user/emp_profile/"
+                enctype="multipart/form-data">
+
+            {% csrf_token %}
+            <input type='text' name='employee' />
+            <!-- Display each form. The as_p method wraps each element in a paragraph
+                 (<p>) element. This ensures each element appears on a new line,
+                 making everything look neater. -->
+            <!-- Provide a button to click to submit the form. -->
+            <br>
+            <input type="submit" name="submit" value="search" />
+        </form>
+        {% if searched == True %}
+        <div class="wrapper1">
+<center>
+        <table>
+      <tr>
+        <td><b><right>NAME</right></b></td>
+        <td>&nbsp&nbsp{{emp_profile.user.first_name}} {{emp_profile.user.last_name}}</td>
+      </tr>
+      <tr>
+        <td><b><right>USER NAME</right></b></td>
+        <td>&nbsp&nbsp{{ emp_profile.user.first_name }}</td>
+      </tr>
+      <tr>
+        <td><b><right>EMAIL</right></b></td>
+        <td>&nbsp&nbsp{{ emp_profile.user.email }}</td>
+      </tr>
+      </br> 
+        </table>
+</center>
+</div>
+        {% endif %}
+{% endblock %}

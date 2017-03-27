@@ -1,0 +1,51 @@
+{% extends 'base_profile.html' %}
+{% block active_statistics %}
+class="active"
+{% endblock %}
+{% block body %}
+<style >
+div.wrapper1{
+                
+        width:1000px;
+        height:100px;
+        margin-left:auto;
+        margin-right:auto;
+        border:1px  red;
+        font-size: 20px;
+        }
+        h1{
+             font-size: 50px;
+             top:50px;
+           }
+        th {
+    height: 50px;
+    width: 250px;
+}   
+</style> 
+<div class="wrapper1">
+<h1><b><center>Leave History</center></b></h1>
+<center>
+        <table>
+      <tr>
+        <th>Leave Type</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Status</th>
+        <th>Reason</th>
+        <th>No of half days</th>
+      </tr>
+      {% for h in history %}
+      <tr>
+        <td>{% if h.leavetype == 'cl'%}casual
+            {% else %}half paid{% endif %}</td>
+        <td>{{h.startdate}}</td>
+        <td>{{h.enddate}}</td>
+        <td>{{h.status}}</td>
+        <td>{{h.des}}</td>
+        <td>{{h.half_day}}</td>
+        </tr>
+        
+    
+{% endfor %}
+</table>
+{% endblock %}

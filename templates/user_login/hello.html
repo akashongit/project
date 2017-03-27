@@ -1,0 +1,54 @@
+{% extends 'base_profile.html' %}
+{% block style %}
+.customtable table,th,td{
+  text-align: center;
+  background-color: #4CAF50;
+  border: 20px solid white;
+  border-collapse: separate;
+  border-spacing: 0px 50px;
+  border-color: white;
+  border-radius: 40px;
+  padding: 10px 150px 10px 150px;
+  color: white;
+}
+.custtable a{
+  color: white;
+  font-size: 20px;
+}
+.custtable a:hover{
+  color: #00FFFF;
+  text-decoration: none;
+{% endblock %}
+{% block active_home %}
+class="active"
+{% endblock %}
+{% block body %}
+
+  <div class="table-responsive">
+    <center>
+    <table class="custtable">
+    <tr>
+      <td>
+      <a href="/user/apply_leave/">Apply for Leave</a>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      <a href="/user/cancel_leave/">Cancel your Leave</a>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      <a href="/user/check_status">Check Your Status</a>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      <a href="/user/leave_history/">View Leave History</a>
+      </td>
+    </tr>
+    </table>   
+    </center>
+  </div>
+
+  {% endblock %}

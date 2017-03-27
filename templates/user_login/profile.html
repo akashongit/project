@@ -1,0 +1,41 @@
+{% extends 'base_profile.html' %}
+{% block active_statistics %}
+class="active"
+{% endblock %}
+{% block body %}
+<style >
+div.wrapper1{
+                
+        width:1000px;
+        height:100px;
+        margin-left:auto;
+        margin-right:auto;
+        border:1px  red;
+        font-size: 40px;
+        }
+        h1{
+             font-size: 65px;
+             top:50px;
+           }
+</style> 
+<div class="wrapper1">
+<h1><b><center>PROFILE</center></b></h1>
+<center>
+        <table>
+      <tr>
+        <td><b><right>NAME</right></b></td>
+        <td>&nbsp&nbsp{{profile.user.first_name}} {{profile.user.last_name}}</td>
+      </tr>
+      <tr>
+        <td><b><right>USER NAME</right></b></td>
+        <td>&nbsp&nbsp{{ profile.user.first_name }}</td>
+      </tr>
+      <tr>
+        <td><b><right>EMAIL</right></b></td>
+        <td>&nbsp&nbsp{{ profile.user.email }}</td>
+      </tr>
+      </br> 
+        </table>
+</center>
+</div>
+{% endblock %}

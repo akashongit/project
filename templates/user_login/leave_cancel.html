@@ -1,0 +1,65 @@
+{% extends 'base_profile.html' %}
+{% block active_home %}
+class="active"
+{% endblock %}
+{% block body %}
+{% if deleted == False %}
+<form id="user_form" method="post" action="/user/cancel_leave/"
+                enctype="multipart/form-data">
+                {% csrf_token %}
+<style >
+div.wrapper1{
+                
+        width:1000px;
+        height:100px;
+        margin-left:auto;
+        margin-right:auto;
+        border:1px  red;
+        font-size: 20px;
+        }
+        h1{
+             font-size: 50px;
+             top:50px;
+           }
+        th {
+    height: 50px;
+    width: 250px;
+}   
+</style> 
+<div class="wrapper1">
+<h1><b><center>Cancel Leave</center></b></h1>
+<center>
+        <table>
+         <tr>
+        <th>Username</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Status</th>
+        <th>Action</th>
+     </tr>
+      {% for p in history %}
+      <tr>
+        <td>{{p.user.username}}</td>
+        <td>{{p.startdate}}</td>
+        <td>{{p.enddate}}</td>
+         <td>{% if p.status == False %}Not approved
+            {% endif %}</td>
+        <td><input type="radio" name="delete" required="false">
+            <input type="hidden" name="leaveid" value={{p.id}}>
+            <!-- <input type="hidden" name="des" value={{p.des}}>  -->
+            <!-- Display each form. The as_p method wraps each element in a paragraph
+                 (<p>) element. This ensures each element appears on a new line,
+                 making everything look neater. -->
+            <!-- Provide a button to click to submit the form. -->
+            <input type="submit" class='btn btn-success' name="submit" value="Delete" />
+            </td>
+        </tr>
+        
+    
+{% endfor %}
+</table>
+{% else %}
+Leave Application has been cancelled
+{% endif %}
+
+{% endblock %}

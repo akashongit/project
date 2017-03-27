@@ -1,0 +1,81 @@
+p=User.objects.get(user=request.user)
+getuser
+class Profile(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
+    admissionno = models.CharField(max_length=7)
+    choice = (
+        ('PC', 'Placement_Cell'),
+        ('TC', 'Training_Cell'),
+        ('ST', 'Student'),
+    )
+    image= models.FileField(default='profile-pics-17.png')
+    status = models.CharField(max_length=2, choices=choice, default='ST')
+    standard=models.CharField(max_length=5,default="CSA")
+    name=models.CharField(max_length=14,unique=True)
+    slug=models.SlugField(max_length=14)
+    def _str_(self):
+        return self.user.email
+
+    def __unicode__(self):
+        return self.user.email
+
+
+{% if user.is_authenticated %}
+        <form name="redirect" action="/user/login/" method="POST">
+  {% csrf_token %}
+  <input type="submit" class="btn btn-success" name="submit_form" value="Sign in" />
+</form>
+<!-- {% else %} -->
+
+<style type="text/css">
+  /* Add a dark background color with a little bit see-through */ 
+.navbar {
+    margin-bottom: 0;
+    background-color: #2d2d30;
+    border: 0;
+    font-size: 11px !important;
+    letter-spacing: 4px;
+    opacity:0.9;
+}
+
+/* Add a gray color to all navbar links */
+.navbar li a, .navbar .navbar-brand { 
+    color: #d5d5d5 !important;
+}
+
+/* On hover, the links will turn white */
+.navbar-nav li a:hover {
+    color: #fff !important;
+}
+
+/* The active link */
+.navbar-nav li.active a {
+    color: #fff !important;
+    background-color:#29292c !important;
+}
+
+/* Remove border color from the collapsible button */
+.navbar-default .navbar-toggle {
+    border-color: transparent;
+}
+
+/* Dropdown */
+.open .dropdown-toggle {
+    color: #fff ;
+    background-color: #555 !important;
+}
+
+/* Dropdown links */
+.dropdown-menu li a {
+    color: #000 !important;
+}
+
+/* On hover, the dropdown links will turn red */
+.dropdown-menu li a:hover {
+    background-color: red !important;
+}
+.logout li a:hover {
+    color: red !important;
+
+}
+</style>

@@ -1,0 +1,10 @@
+{% extends 'login.html' %}
+{% block title %}{% endblock %}
+{% block form %}
+<form name="LoginForm" method="post">
+    {% csrf_token %}
+    <input type="button" name="submit_form" value="Sign in" onclick="window.location.href='/user/login/'"  />
+    <input type="button" name="submit_form" value="Sign up" onclick="window.location.href='/user/register/'"  />
+</form>
+
+{% endblock %}

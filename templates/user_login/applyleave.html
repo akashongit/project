@@ -49,6 +49,13 @@ div.wrapper1{
         <strong>Your leave application has been submitted!</strong>
         <a href="/user_login/">Return to the homepage.</a><br />
         {% else %}
+<div style="color:red">
+   <h4>
+        {% if applied == False %}
+        {{ msg }}
+    {% endif %}
+    </h4>
+</div>    
          <center<div class="container">
         <div class="right">
    <div class="wrapper2">
@@ -104,4 +111,14 @@ div.wrapper1{
         </div>
         </center>
         {% endif %}
+{% endblock %}
+{% block jquery %}
+   $(".datepicker").datepicker({
+      changeMonth: true,
+      changeYear: true,
+      yearRange: "2017:2020",
+      // You can put more options here.
+
+    });
+
 {% endblock %}

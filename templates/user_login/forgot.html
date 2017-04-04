@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block body %}
+
+{% if forgot %}
+{{msg}}
+
+{% else %}
+<div class="wrapper">
+<center>
+<br><br>Enter your email <br><br>
+<form id="user_form" method="post" action="/user/forgot/"
+                enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+            <!-- Display each form. The as_p method wraps each element in a paragraph
+                 (<p>) element. This ensures each element appears on a new line,
+                 making everything look neater. -->
+            <input type="email" placeholder="Email" name="email" />
+            <!-- Provide a button to click to submit the form. -->
+            <input type="submit" class="btn btn-primary" name="submit" value="Forgot" />
+        </form>
+        </center>
+        </br></br></br></br>
+<div>        
+{% endif %}
+{% endblock %}

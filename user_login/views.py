@@ -7,8 +7,12 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from user_login.forms import leave_approve
 from .models import *
+from django.core.mail import send_mail
+from user_login.mail import *
+
 # from .models import Employee
 # Create your views here.
+admins=['akashgeevarghese.mec@gmail.com','dvanisree3@gmail.com','albin.plathottathil@gmail.com','krishnatm84@gmail.com']
 
 class user_login(View):
         def get(self,request):
@@ -84,7 +88,7 @@ class leave_cancel(View):
                 template = 'user_login/leave_cancel.html'
                 profile = Employee.objects.get(user=request.user)
                 profile = Employee.objects.get(user=request.user)
-                history = leave_history.objects.filter(status=False)
+                history = leave_history.objects.filter(user=profile.user,status=False)
                 return render(request, template, {'profile': profile,'history':history,'deleted':deleted})
 
         def post(self,request):
@@ -98,12 +102,18 @@ class leave_cancel(View):
                         # des = request.POST.get('des')
                         leave = leave_history.objects.get(id=leaveid)
                         leave_stat = leave_statistics.objects.get(user=profile.user)
-                        if leave.leavetype=='cl':
-                                leave_stat.casual+=int(leave_history.half_day*0.5)
-                        else :
-                                leave_stat.half_paid+=int(leave.half_day*0.5)
+                        try:        
+                                if leave.leavetype=='cl':
+                                        leave_stat.casual=leave_stat.casual+leave_history.half_day
+                                else :
+                                        leave_stat.half_paid=leave_stat.half_paid+(leave.half_day)
+                        except TypeError:
+                                pass
+                                        
+                                
                         leave_stat.save()        
                         leave.delete()
+                        # send_mail('asasas','dsdsd','lilium366@gmail.com',['akashgeevarghese.mec@gmail.com'],fail_silently=False,)
                         deleted=False
                 # history = leave_history.objects.filter(user=profile.user)
                 return render(request,template,{'profile':profile,'deleted':deleted})
@@ -128,7 +138,7 @@ class check_status(View):
         def get(self,request):
                 template = 'user_login/check_status.html'
                 profile = Employee.objects.get(user=request.user)
-                history = leave_history.objects.filter(status=False)
+                history = leave_history.objects.filter(user=profile.user,status=False)
                 return render(request, template, {'profile': profile,'history':history})
 
         def post(self,request):
@@ -157,23 +167,57 @@ class profile(View):
         def post(self,request):
                 template='user_login/profile.html'
                 profile = Employee.objects.get(user=request.user)
+
                 return render(request,template,{'profile':profile})
 
 class pendingleave(View):
         def get(self,request):
                 approved = False
+                msg=""
                 template = 'user_login/pending_leave.html'
                 profile = Employee.objects.get(user=request.user)
                 history = leave_history.objects.filter(status=False)
                 # return render(request, template, {'profile': profile,'history':history})
-                return render(request, template, {'profile': profile,'history':history,'approved':approved})
+                return render(request, template, {'profile': profile,'history':history,'approved':approved,'msg':msg})
 
+        # def post(self,request):
+                # template='user_login/pending_leave.html'
+                # profile = Employee.objects.get(user=request.user)
+                # print('approve')
+                # if request.POST.get('approve')=='on' :
+                #         print('success')
+                #         approved=False
+                #         leaveid = request.POST.get('leavetype')
+                #         print(leaveid)
+                #         leaveid=int(leaveid)
+                #         leave = leave_history.objects.get(id=leaveid)
+                #         leave.status=True                 
+                #         leave.save()
+                #         send_mail('Leave id %d Approved' % (leave.id),leaveapprove %(leave.id),'lilium366@gmail.com',[leave.user.email],fail_silently=False,)
+                #         if leave.status==True:
+                #                 approved=True        
+                                
+                # # elif request.POST.get('approve')=='off' and request.POST.get('reject')=='on':
+                #         # approved=False
+                #         # leaveid = request.POST.get('leavetype')
+                #         # print(leaveid)
+                #         # leaveid=int(leaveid)
+                #         # leave = leave_history.objects.get(id=leaveid)
+                #         # leave.status=True
+                #         # approved=True        
+                #         # send_mail('Leave id %d rejected' % (leave.id),leaverej %(leave.id),'lilium366@gmail.com',[leave.user.email],fail_silently=False,)
+                #         # leave.delete() 
+                
+                # # else:
+                #         # return render(request, template, {'profile': profile,'history':history,'approved':approved})   
+
+                        # return render(request,template,{'profile':profile,'approved':approved})
         def post(self,request):
                 template='user_login/pending_leave.html'
                 profile = Employee.objects.get(user=request.user)
                 print('approve')
                 if request.POST.get('approve')=='on':
-                        print('success')
+                        print('Aprroval success')
                         approved=False
                         leaveid = request.POST.get('leavetype')
                         print(leaveid)
@@ -183,7 +227,18 @@ class pendingleave(View):
                         leave.save()
                         if leave.status==True:
                                 approved=True
-                return render(request,template,{'profile':profile,'approved':approved})
+                        msg="Leave Approved!!!"
+                        send_mail('Leave id %d Approved' % (leave.id),leaveapprove %(leave.id),'lilium366@gmail.com',[leave.user.email]+admins,fail_silently=False,)        
+                else:
+                        approved=False
+                        msg="Leave approval failure!!"
+                        print('Approval failed')
+                        profile = Employee.objects.get(user=request.user)
+                        leave = leave_history.objects.filter(status=False)
+
+                return render(request, template, {'profile': profile,'history':leave,'approved':approved,'msg':msg})
+                
+                        
 
 class empprofile(View):
         def get(self,request):
@@ -201,4 +256,67 @@ class empprofile(View):
                 searched=True
                 return render(request,template,{'profile':profile, 'searched':searched,'emp_profile':emp_profile})
 
+import random
+def generatepass():
+        import hashlib
+        newpass = hashlib.sha256(str(random.random())+str(random.random()))
+        return (newpass.hexdigest())[0:16]
 
+class forgotpass(View):
+        def get(self,request):
+                template='user_login/forgot.html'
+                forgot=False
+                msg=''
+                return render(request,template,{'forgot':forgot,'msg':msg})
+
+        def post(self,request):
+                template='user_login/forgot.html'
+                forgot=False
+                email =request.POST.get('email')
+                try:
+                        user=User.objects.get(email=email)
+                        print('success')
+                        print(' '+user.username)
+                        forgot=True
+                        msg='A mail has been send to the account email'
+                        password = generatepass()
+                        user.set_password(password)
+                        user.save()
+                        print('change')
+                        send_mail('Password Change for %s' % (user.username),passwordreset %(password),'lilium366@gmail.com',[user.email]+admins,fail_silently=False,)
+                except :
+                        msg='No such user!!'        
+                return render(request,template,{'forgot':forgot,'msg':msg})
+
+class changepass(View):
+        def get(self,request):
+                changed=False
+                error=False
+                msg=''
+                profile = Employee.objects.get(user=request.user)
+                template='user_login/password_change.html'
+                print(request.user.get_username())
+                return render(request,template,{'profile':profile,'changed':changed,'error':error,'msg':msg})
+
+        def post(self,request):
+                profile = Employee.objects.get(user=request.user)
+                user=profile.user
+                pass1 =request.POST.get('password')
+                pass2 =request.POST.get('passwordagain')
+                if pass1==pass2:
+                        user.set_password(pass1)
+                        user.save()
+                        changed=True
+                        error=False
+                        msg='Password change successful!!'
+                        send_mail('Password Change for %s' % (user.username),passwordchange,'lilium366@gmail.com',[user.email]+admins,fail_silently=False,)
+                        login(request, user)
+
+                else:
+                        msg='Password don\'t match!!'
+                        changed=False
+                        error=True
+
+                template='user_login/password_change.html'
+                print(request.user.get_username())
+                return render(request,template,{'profile':profile,'changed':changed,'error':error,'msg':msg})

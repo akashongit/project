@@ -26,14 +26,24 @@ div.wrapper1{
 </style> 
 <div class="wrapper1">
 <h1><b><center>Pending Leave</center></b></h1>
+<div style="color:red">
+   <h4>
+        {{ msg }}
+    </h4>
+</div>    
 <center>
+    <form id="user_form" method="post" action="/user/pending_leave/"
+                enctype="multipart/form-data">
+       {% csrf_token %}
         <table>
       <tr>
         <th>Username</th>
         <th>Start Date</th>
         <th>End Date</th>
         <th>Status</th>
+        <!-- <th>Action</th> -->
         <th>Action</th>
+        <th></th>
       </tr>
       {% for p in history %}
       <tr>
@@ -43,21 +53,27 @@ div.wrapper1{
         <td>{% if p.status == False %}Not approved
             {% endif %}</td>
         <td><input type="radio" name="approve" required="false">
+        <!-- <td><input type="radio" name="reject" required="false" value="off"><td> -->
             <input type="hidden" name="leavetype" value={{p.id}}>
             <!-- <input type="hidden" name="des" value={{p.des}}>  -->
             <!-- Display each form. The as_p method wraps each element in a paragraph
                  (<p>) element. This ensures each element appears on a new line,
                  making everything look neater. -->
             <!-- Provide a button to click to submit the form. -->
-            <input type="submit" class='btn btn-success' name="submit" value="approve" />
-            </td>
+          <td><input type="submit" class='btn btn-success' value="Approve" /></td>
         </tr>
         
     
 {% endfor %}
 </table>
-{% else %}
+</form>
+{% if approve == True %}
 Leave Application has been Approved
 {% endif %}
-
+{% endif %}
+<div style="color:green">
+   <h4>
+        &nbsp &nbsp {{ msg }}
+    </h4>
+</div>    
 {% endblock %}

@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="//cdn.bootcss.com/bootstrap-datetimepicker/4.17.44/js/bootstrap-datetimepicker.min.js"></script>
   <style type="text/css">
   /* Add a dark background color with a little bit see-through */ 
 .navbar {
@@ -91,4 +92,15 @@
 {% endblock %}
 </section>
 </body>
+
+<script type="text/javascript">
+  $(function(){
+
+{% block jquery %}
+{% endblock %}
+
+
+  })
+</script>
+
 </html>

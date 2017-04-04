@@ -7,6 +7,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import Http404
 import datetime
+from django.core.mail import send_mail
+from user_login.mail import *
+
+today = datetime.date.today()
 
 class leave_apply(View):
     # set to false initially as request is not submitted
@@ -24,6 +28,7 @@ class leave_apply(View):
             return render(request,template,{'profile':profile,'leave_app_form': leave_app_form, 'applied': applied,'leave':leave_stat} )
 
     def post(self,request):
+        template="user_login/applyleave.html"
         # If it's a HTTP POST, we're interested in processing form data.
         # Attempt to grab information from the raw form information.
         leave_form = leave_app_form(data=request.POST)
@@ -44,19 +49,30 @@ class leave_apply(View):
                 # print(leave_app.leavetype)
                 d0 = leave_app.startdate
                 d1 = leave_app.enddate
+                if (d0-today).days<=0 and (d1-today).days<=0:
+                    print('start or end date error')
+                    applied=False
+                    msg="Invalid start or end date!!"
+                    return render(request,template,{'profile':profile,'leave_app_form': leave_app_form, 'applied': applied,'leave':leave_stat,'msg':msg} )
                 delta = d1-d0
                 days=delta.days
                 if days<0:
                     applied=False
-                    return render(request,template,{'profile':profile,'leave_app_form': leave_app_form, 'applied': applied,'leave':leave_stat})
+                    msg="Invalid start or end date!!"
+                    return render(request,template,{'profile':profile,'leave_app_form': leave_app_form, 'applied': applied,'leave':leave_stat,'msg':msg})
                 leave_app.half_day=days*2
                 check_leave(leave_app=leave_app,leave_stat=leave_stat)
                 # print(leave_stat.casual)
                 leave_app.save()
-            return HttpResponse('Leave Application Successful!!<a href ={% url '/user/hello/' %}')
+                send_mail('Leave id %d submitted' % (leave_app.id),leaveapp %(leave_app.id,profile.user.username),'lilium366@gmail.com',['akashgeevarghese.mec@gmail.com','dvanisree3@gmail.com','albin.plathottathil@gmail.com','krishnatm84@gmail.com'],fail_silently=False,)
+                
+
+            return HttpResponse('Leave Application Successful!!')
+            # return HttpResponse('Leave Application Successful!!')
         except ValueError:
             applied = False
-            return render(request,template,{'profile':profile,'leave_app_form': leave_app_form, 'applied': applied,'leave':leave_stat} )
+            msg="Form error"
+            return render(request,template,{'profile':profile,'leave_app_form': leave_app_form, 'applied': applied,'leave':leave_stat,'msg':msg} )
 
 def check_leave(leave_app,leave_stat):
     flag=False

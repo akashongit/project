@@ -1,5 +1,6 @@
 from django.conf.urls import url
 from . import views,registration,leave_application
+from django.contrib.auth.views import password_reset
 
 urlpatterns = [
     url(r'^$',views.home,name='home'),
@@ -14,5 +15,7 @@ urlpatterns = [
     url(r'^statistics/',views.statistics.as_view(),name='statistics'),
     url(r'^profile/',views.profile.as_view(),name='profile'),
     url(r'^pending_leave/',views.pendingleave.as_view(),name='pending_leave'),
-    url(r'^emp_profile/',views.empprofile.as_view(),name='emp_profile')
+    url(r'^emp_profile/',views.empprofile.as_view(),name='emp_profile'),
+    url(r'^forgot/',views.forgotpass.as_view(),name='password reset'),
+    url(r'^change_password/',views.changepass.as_view(),name='password change')
 ]

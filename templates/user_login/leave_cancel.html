@@ -29,6 +29,8 @@ div.wrapper1{
 <div class="wrapper1">
 <h1><b><center>Cancel Leave</center></b></h1>
 <center>
+<form id="user_form" method="post" action="/user/register/"
+                enctype="multipart/form-data">
         <table>
          <tr>
         <th>Username</th>
@@ -54,10 +56,10 @@ div.wrapper1{
             <input type="submit" class='btn btn-success' name="submit" value="Delete" />
             </td>
         </tr>
-        
     
 {% endfor %}
 </table>
+</form>
 {% else %}
 Leave Application has been cancelled
 {% endif %}

@@ -23,12 +23,12 @@ class UserForm(forms.ModelForm):
 class UserprofileForm(forms.ModelForm):
     class Meta:
         model = Employee
-        fields = ('department','Tflag')
+        fields = ('department',)
 
 # for leave application
 class leave_app_form(forms.ModelForm):
-    startdate = forms.DateField(label="",widget=forms.DateInput(attrs={'placeholder':'Start Date'})) 
-    enddate = forms.DateField(label="",widget=forms.DateInput(attrs={'placeholder':'End Date'})) 
+    startdate = forms.DateField(label="",widget=forms.DateInput(attrs={'placeholder':'Start mm/dd/yyyy','class':'datepicker'})) 
+    enddate = forms.DateField(label="",widget=forms.DateInput(attrs={'placeholder':'End Date mm/dd/yyyy','class':'datepicker'})) 
     des = forms.CharField(label="",widget=forms.TextInput(attrs={'placeholder':'Leave reason','height':'100','width':'100'}))
     # half_day = forms.IntegerField(label="",widget=forms.NumberInput(attrs={'placeholder':'No of Halfdays'}))
     # leavetype = forms.ChoiceField(label="leave Type",widget=forms.Select(attrs={}),('casual leave','half paid'))
